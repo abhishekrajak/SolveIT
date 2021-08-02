@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SolveITActivity"
+    android:background="@color/backgroundBlue">
+
+    <TextView
+        android:id="@+id/operator"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/operand1"
+        app:layout_constraintEnd_toStartOf="@+id/operand2"
+        app:layout_constraintStart_toEndOf="@+id/operand1"
+        tools:text="+" />
+
+    <TextView
+        android:id="@+id/operand1"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/answer"
+        app:layout_constraintEnd_toStartOf="@+id/operator"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="9999" />
+
+    <TextView
+        android:id="@+id/operand2"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/operand1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/operator"
+        tools:text="9999" />
+
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="367dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/operator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="solveIT" />
+
+    <EditText
+        android:id="@+id/answer"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginBottom="244dp"
+        android:ems="10"
+        android:hint="@string/type"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        tools:text="Input"
+        android:inputType="numberSigned"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/submit"
+        app:layout_constraintStart_toStartOf="@+id/operand1" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/answer"
+        app:layout_constraintEnd_toEndOf="@+id/operand2"
+        app:layout_constraintStart_toEndOf="@+id/answer"
+        app:layout_constraintTop_toTopOf="@+id/answer" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/appName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="score : 10  max(20)" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

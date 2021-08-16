@@ -1,35 +1,23 @@
 package com.example.solveit
 
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.util.Log.INFO
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.example.solveit.databinding.ActivityMainBinding
-import com.example.solveit.db.Converters
 import com.example.solveit.db.ScoreDatabase
 import com.example.solveit.model.Score
 import com.example.solveit.problem.Operator
-import com.example.solveit.problem.Problem
 import com.example.solveit.problem.ProblemGenerator
 import com.example.solveit.repository.ScoreRepository
+import com.example.solveit.viewModel.ScoreViewModel
 import kotlinx.coroutines.*
-import java.lang.Exception
-import java.util.*
-import java.util.logging.Level.INFO
-import kotlin.math.log
-import kotlin.math.max
 
 class SolveITActivity : AppCompatActivity() {
 

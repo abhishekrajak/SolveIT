@@ -12,6 +12,7 @@ import com.example.solveit.model.Score
     entities = [Score::class],
     version = 1
 )
+
 @TypeConverters(Converters::class)
 abstract class ScoreDatabase : RoomDatabase() {
 

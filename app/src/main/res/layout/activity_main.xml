@@ -23,13 +23,15 @@
         android:id="@+id/operand1"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:textSize="30sp"
         android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/answer"
         app:layout_constraintEnd_toStartOf="@+id/operator"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appName"
         tools:text="9999" />
 
     <TextView
@@ -46,33 +48,35 @@
 
     <TextView
         android:id="@+id/appName"
-        android:layout_width="367dp"
-        android:layout_height="106dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/operator"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
         tools:text="solveIT" />
 
     <EditText
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_marginBottom="244dp"
+        android:layout_marginBottom="336dp"
         android:ems="10"
         android:hint="@string/type"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        tools:text="Input"
         android:inputType="numberSigned"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/submit"
-        app:layout_constraintStart_toStartOf="@+id/operand1" />
+        app:layout_constraintStart_toStartOf="@+id/operand1"
+        tools:text="Input" />
 
     <Button
         android:id="@+id/submit"
@@ -88,9 +92,9 @@
     <TextView
         android:id="@+id/score"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:maxLines="1"
         android:text=""
@@ -98,8 +102,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/appName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.129"
         tools:text="score : 10  max(20)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

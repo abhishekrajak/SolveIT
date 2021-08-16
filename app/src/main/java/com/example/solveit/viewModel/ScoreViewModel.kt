@@ -1,4 +1,4 @@
-package com.example.solveit
+package com.example.solveit.viewModel
 
 import android.app.Application
 import android.util.Log
@@ -10,13 +10,9 @@ import com.example.solveit.model.Score
 import com.example.solveit.problem.Problem
 import com.example.solveit.problem.ProblemGenerator
 import com.example.solveit.repository.ScoreRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
-import kotlin.math.log
 
 class ScoreViewModel(
     app: Application,

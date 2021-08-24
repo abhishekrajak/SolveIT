@@ -21,11 +21,6 @@ import kotlinx.coroutines.*
 
 class SolveITActivity : AppCompatActivity() {
 
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var sharedPreferencesEditor: SharedPreferences.Editor
-    private lateinit var score: TextView
-    private var currentScore: Int = 0
-    private var maxScore: Int = 0
     private val TAG = "MainActivityTag"
 
     lateinit var scoreViewModel: ScoreViewModel

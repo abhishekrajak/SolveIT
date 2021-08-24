@@ -25,17 +25,6 @@ class ScoreViewModel(
     private val TAG = "ScopeViewModel"
 
     init {
-        Log.d(TAG, "Init")
-
-//        viewModelScope.launch {
-//            val triggerScore = Score(scoreVal = 0, date = Converters().fromTimestamp(Date().time))
-//            val rowId = scoreRepository.insert(triggerScore)
-//            triggerScore.id = rowId.toInt()
-//            Log.d(TAG, "rowId: ${rowId}")
-//            delay(5000)
-//            scoreRepository.delete(triggerScore)
-//        }
-
         val observableItem = getScores()
         observableItem.observeForever(object : Observer<List<Score>> {
             override fun onChanged(t: List<Score>?) {
@@ -48,14 +37,9 @@ class ScoreViewModel(
                         }
                     }   catch (e : Exception){}
                 }
-                Log.d(TAG, "onChanged: ------------------------Display Over--------------------------------")
             }
 
         })
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            scoreRepository.deleteAll()
-//        }
 
     }
 

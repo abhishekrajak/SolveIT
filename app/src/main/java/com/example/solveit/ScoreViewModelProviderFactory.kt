@@ -8,8 +8,8 @@ import com.example.solveit.viewModel.ScoreViewModel
 
 
 class ScoreViewModelProviderFactory(
-    val app: Application,
-    val scoreRepository: ScoreRepository
+    private val app: Application,
+    private val scoreRepository: ScoreRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

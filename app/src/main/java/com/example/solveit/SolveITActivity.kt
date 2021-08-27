@@ -30,6 +30,7 @@ class SolveITActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        setTheme(R.style.Theme_SolveIT)
         setContentView(view)
 
         val scoreRepository = ScoreRepository(ScoreDatabase(this))

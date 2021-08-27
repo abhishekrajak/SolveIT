@@ -1,11 +1,13 @@
 package com.example.solveit
 
 import android.content.SharedPreferences
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -20,9 +22,7 @@ import com.example.solveit.viewModel.ScoreViewModel
 import kotlinx.coroutines.*
 
 class SolveITActivity : AppCompatActivity() {
-
     private val TAG = "MainActivityTag"
-
     lateinit var scoreViewModel: ScoreViewModel
     lateinit var binding: ActivityMainBinding
 
@@ -71,19 +71,39 @@ class SolveITActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Unconfined).launch {
                 val input = binding.answer.text.toString().toLong()
                 if(input.equals(scoreViewModel.problem.answer)){
-                    Toast.makeText(applicationContext, "Correct", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(applicationContext, "Correct", Toast.LENGTH_SHORT).show()
                     scoreViewModel.incrementCurrentScore()
                     updateUIScore()
+                    binding.ivCorrectIcon.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.Unconfined).launch {
+                        delay(1000)
+                        withContext(Dispatchers.Main){
+                            disableIcon()
+                        }
+                    }
+
                 }else{
-                    Toast.makeText(applicationContext, "Incorrect", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(applicationContext, "Incorrect", Toast.LENGTH_SHORT).show()
                     scoreViewModel.saveScore()
                     scoreViewModel.resetCurrentScore()
                     updateUIScore()
+                    binding.ivWrongIcon.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.Unconfined).launch {
+                        delay(1000)
+                        withContext(Dispatchers.Main){
+                            disableIcon()
+                        }
+                    }
                 }
                 setProblem()
                 binding.answer.setText("")
             }
         }
+    }
+
+    private suspend fun disableIcon(){
+        binding.ivCorrectIcon.visibility = View.INVISIBLE
+        binding.ivWrongIcon.visibility = View.INVISIBLE
     }
 
     private fun updateUIScore(){

@@ -23,6 +23,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import android.view.animation.AlphaAnimation
+import android.view.animation.LinearInterpolator
 import androidx.core.content.ContextCompat
 
 
@@ -79,8 +80,6 @@ class SolveITActivity : AppCompatActivity() {
         binding.score.text = scoreViewModel.getScoreString()
     }
 
-    private val buttonClick = AlphaAnimation(1f, 0.0f)
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setupListener() {
         binding.answer.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
@@ -92,14 +91,21 @@ class SolveITActivity : AppCompatActivity() {
         })
 
         binding.button.setOnClickListener {
-            it.startAnimation(buttonClick)
+            it.alpha = 0.2f
+            it.animate().apply {
+                interpolator = LinearInterpolator()
+                duration = 300
+                alpha(1f)
+                startDelay = 300
+                start()
+            }
+
             if (!binding.answer.text.isEmpty()) {
                 checkAnswer()
             }
         }
         binding.button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundBlue))
     }
-
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

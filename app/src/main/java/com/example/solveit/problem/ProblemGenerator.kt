@@ -1,8 +1,11 @@
 package com.example.solveit.problem
 
+import com.example.solveit.model.Operator
+import com.example.solveit.model.Problem
+
 class ProblemGenerator {
     companion object{
-        fun generate() : Problem{
+        fun generate() : Problem {
             val operand1 = (1..10).random().toLong()
             val operand2 = (1..10).random().toLong()
 
@@ -13,7 +16,7 @@ class ProblemGenerator {
                 answer = getAnswer(operand1 = operand1, operand2 = operand2, operator = operator))
         }
 
-        fun getOperator(option:Int) : Operator{
+        fun getOperator(option:Int) : Operator {
             return when(option){
                 1 -> Operator.addition
                 2 -> Operator.subtraction

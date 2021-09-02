@@ -1,88 +1,51 @@
 package com.example.solveit.viewModel
 
 import android.app.Application
-import android.util.Log
+import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
-import com.example.solveit.db.Converters
-import com.example.solveit.model.Score
-import com.example.solveit.problem.Problem
-import com.example.solveit.problem.ProblemGenerator
-import com.example.solveit.repository.ScoreRepository
-import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.util.*
+import com.example.solveit.model.Problem
+import kotlin.math.max
 
 class ScoreViewModel(
     app: Application,
-    private val scoreRepository: ScoreRepository
+    private val sharedPreferences: SharedPreferences
 ) : AndroidViewModel(app){
 
     lateinit var problem: Problem
     private var currentScore: Int = 0
     private var maxScore: Int = 0
     private val TAG = "ScopeViewModel"
+    private val MAX_SCORE_VAL = "MAX_SCORE_VAL"
 
     init {
-        val observableItem = getScores()
-        observableItem.observeForever(object : Observer<List<Score>> {
-            override fun onChanged(t: List<Score>?) {
-                t?.forEach{
-                    Log.d(TAG, "onChanged: ${it.id} ${it.scoreVal} ${it.date}")
-                    try {
-                        val x = it.scoreVal!!
-                        if(x > maxScore){
-                            maxScore = x
-                        }
-                    }   catch (e : Exception){}
-                }
-            }
+        reset()
+    }
 
-        })
-
+    fun reset(){
+        currentScore = 0
+        loadScore()
+    }
+    fun loadScore(){
+        maxScore = sharedPreferences.getInt(MAX_SCORE_VAL, 0)
     }
 
     fun incrementCurrentScore(){
         currentScore++
     }
 
-    fun resetCurrentScore(){
-        currentScore = 0
-    }
-
     fun saveScore(){
-        Log.d(TAG, "saveScore: ${currentScore}" )
-        val score = Score(scoreVal = currentScore, date = Converters().fromTimestamp(Date().time))
-        val rowId = insertScore(score)
-
         if(currentScore > maxScore){
-            maxScore = currentScore
+            sharedPreferences.edit().putInt(MAX_SCORE_VAL, currentScore).commit()
         }
-
-        Log.d(TAG, "saveScore: ${rowId}")
-    }
-
-    fun check(input: Long) : Boolean{
-        return input == problem.answer
-    }
-
-    suspend fun problemGenerate() : Problem{
-        return ProblemGenerator.generate()
     }
 
     fun getScoreString() : String{
-        return String.format("Current : %d (Max : %d)", currentScore, maxScore)
+        return (currentScore - maxScore).toString()
     }
 
-    fun insertScore(score: Score) = viewModelScope.launch {
-        scoreRepository.insert(score)
+    fun resetAllScores(){
+        currentScore = 0
+        maxScore = 0
+        sharedPreferences.edit().putInt(MAX_SCORE_VAL, 0).commit()
     }
-
-    fun getScores() = scoreRepository.getScores()
-
-    fun deleteScore(score: Score) = viewModelScope.launch {
-        scoreRepository.delete(score)
-    }
-
 }

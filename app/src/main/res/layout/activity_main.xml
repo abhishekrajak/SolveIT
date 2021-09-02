@@ -74,20 +74,11 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/submit"
+        app:layout_constraintEnd_toEndOf="@id/operand2"
         app:layout_constraintStart_toStartOf="@+id/operand1"
-        tools:text="Input" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/answer"
-        app:layout_constraintEnd_toEndOf="@+id/operand2"
-        app:layout_constraintStart_toEndOf="@+id/answer"
-        app:layout_constraintTop_toTopOf="@+id/answer" />
+        android:imeOptions="actionNext"
+        tools:text="Input"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/score"

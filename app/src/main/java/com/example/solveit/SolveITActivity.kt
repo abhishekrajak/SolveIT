@@ -1,15 +1,11 @@
 package com.example.solveit
 
-import android.content.SharedPreferences
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.solveit.databinding.ActivityMainBinding
@@ -34,19 +30,31 @@ class SolveITActivity : AppCompatActivity() {
         setContentView(view)
 
         val scoreRepository = ScoreRepository(ScoreDatabase(this))
-        val scoreViewModelProviderFactory = ScoreViewModelProviderFactory(application, scoreRepository)
-        scoreViewModel = ViewModelProvider(this, scoreViewModelProviderFactory).get(ScoreViewModel::class.java)
+        val scoreViewModelProviderFactory =
+            ScoreViewModelProviderFactory(application, scoreRepository)
+        scoreViewModel =
+            ViewModelProvider(this, scoreViewModelProviderFactory).get(ScoreViewModel::class.java)
 
         binding.appName.text = getString(R.string.appName)
         updateUIScore()
         CoroutineScope(Dispatchers.Unconfined).launch {
             setProblem()
         }
-        setButtonProperty()
         setUIUpdateOnDatabase()
+        setupKeyboard()
     }
 
-    private fun setUIUpdateOnDatabase(){
+    private fun setupKeyboard() {
+        binding.answer.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                checkAnswer()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+    }
+
+    private fun setUIUpdateOnDatabase() {
         val observableItem = scoreViewModel.getScores()
         observableItem.observeForever(object : Observer<List<Score>> {
             override fun onChanged(t: List<Score>?) {
@@ -55,71 +63,56 @@ class SolveITActivity : AppCompatActivity() {
         })
     }
 
-    private fun setButtonProperty(){
-        binding.submit.isEnabled = false
-
-        binding.answer.addTextChangedListener(object: TextWatcher {
-            override fun onTextChanged(s:CharSequence, start:Int, before:Int, count:Int) {
-                binding.submit.isEnabled = s.toString().trim{ it <= ' ' }.isNotEmpty()
-            }
-            override fun beforeTextChanged(s:CharSequence, start:Int, count:Int, after:Int) {
-            }
-            override fun afterTextChanged(s: Editable) {}
-        })
-
-        binding.submit.setOnClickListener {
-            CoroutineScope(Dispatchers.Unconfined).launch {
-                val input = binding.answer.text.toString().toLong()
-                if(input.equals(scoreViewModel.problem.answer)){
-//                    Toast.makeText(applicationContext, "Correct", Toast.LENGTH_SHORT).show()
-                    scoreViewModel.incrementCurrentScore()
-                    updateUIScore()
-                    binding.ivCorrectIcon.visibility = View.VISIBLE
-                    CoroutineScope(Dispatchers.Unconfined).launch {
-                        delay(1000)
-                        withContext(Dispatchers.Main){
-                            disableIcon()
-                        }
-                    }
-
-                }else{
-//                    Toast.makeText(applicationContext, "Incorrect", Toast.LENGTH_SHORT).show()
-                    scoreViewModel.saveScore()
-                    scoreViewModel.resetCurrentScore()
-                    updateUIScore()
-                    binding.ivWrongIcon.visibility = View.VISIBLE
-                    CoroutineScope(Dispatchers.Unconfined).launch {
-                        delay(1000)
-                        withContext(Dispatchers.Main){
-                            disableIcon()
-                        }
+    fun checkAnswer() {
+        CoroutineScope(Dispatchers.Unconfined).launch {
+            val input = binding.answer.text.toString().toLong()
+            if (input.equals(scoreViewModel.problem.answer)) {
+                scoreViewModel.incrementCurrentScore()
+                updateUIScore()
+                binding.ivCorrectIcon.visibility = View.VISIBLE
+                CoroutineScope(Dispatchers.Unconfined).launch {
+                    delay(1000)
+                    withContext(Dispatchers.Main) {
+                        disableIcon()
                     }
                 }
-                setProblem()
-                binding.answer.setText("")
+
+            } else {
+                scoreViewModel.saveScore()
+                scoreViewModel.resetCurrentScore()
+                updateUIScore()
+                binding.ivWrongIcon.visibility = View.VISIBLE
+                CoroutineScope(Dispatchers.Unconfined).launch {
+                    delay(1000)
+                    withContext(Dispatchers.Main) {
+                        disableIcon()
+                    }
+                }
             }
+            setProblem()
+            binding.answer.setText("")
         }
     }
 
-    private suspend fun disableIcon(){
+    private suspend fun disableIcon() {
         binding.ivCorrectIcon.visibility = View.INVISIBLE
         binding.ivWrongIcon.visibility = View.INVISIBLE
     }
 
-    private fun updateUIScore(){
+    private fun updateUIScore() {
         binding.score.text = scoreViewModel.getScoreString()
     }
 
-    private suspend fun setProblem(){
+    private suspend fun setProblem() {
         scoreViewModel.problem = ProblemGenerator.generate()
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             binding.operand1.text = scoreViewModel.problem.operand1.toString()
             binding.operand2.text = scoreViewModel.problem.operand2.toString()
 
-            val operatorSwitch = when(scoreViewModel.problem.operator){
+            val operatorSwitch = when (scoreViewModel.problem.operator) {
                 Operator.addition -> "+"
                 Operator.subtraction -> "-"
-                Operator.multiplication -> "X"
+                Operator.multiplication -> "×"
                 else -> "+"
             }
             binding.operator.text = operatorSwitch

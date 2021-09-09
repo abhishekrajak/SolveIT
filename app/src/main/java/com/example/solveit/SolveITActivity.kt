@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import androidx.annotation.RequiresApi
@@ -68,6 +69,10 @@ class SolveITActivity : AppCompatActivity() {
             }
 
         }
+        if(binding.answer.requestFocus()){
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
+
         updateUIScore()
         CoroutineScope(Dispatchers.Unconfined).launch {
             setProblem()

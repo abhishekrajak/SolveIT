@@ -5,6 +5,8 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -26,6 +28,7 @@ import androidx.core.content.res.ResourcesCompat
 import android.view.animation.AlphaAnimation
 import android.view.animation.LinearInterpolator
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 
 
 class SolveITActivity : AppCompatActivity() {
@@ -69,8 +72,8 @@ class SolveITActivity : AppCompatActivity() {
             }
 
         }
-        if(binding.answer.requestFocus()){
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        if (binding.answer.requestFocus()) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         }
 
         updateUIScore()
@@ -94,6 +97,22 @@ class SolveITActivity : AppCompatActivity() {
             }
             false
         })
+
+        binding.button.let {
+            it.isEnabled = false
+            it.alpha = 0.2f
+        }
+        binding.answer.addTextChangedListener {
+            if (it != null){
+                if(it.isNotEmpty()){
+                    binding.button.alpha = 1f
+                    binding.button.isEnabled = true
+                }else{
+                    binding.button.alpha = 0.2f
+                    binding.button.isEnabled = false
+                }
+            }
+        }
 
         binding.button.setOnClickListener {
             it.alpha = 0.2f
@@ -160,7 +179,7 @@ class SolveITActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun disableIcon() {
+    private fun disableIcon() {
         binding.ivCorrectIcon.visibility = View.INVISIBLE
         binding.ivWrongIcon.visibility = View.INVISIBLE
     }
@@ -179,7 +198,6 @@ class SolveITActivity : AppCompatActivity() {
                 Operator.addition -> "+"
                 Operator.subtraction -> "-"
                 Operator.multiplication -> "×"
-                else -> "+"
             }
             binding.operator.text = operatorSwitch
         }

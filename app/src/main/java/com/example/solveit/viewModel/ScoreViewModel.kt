@@ -35,17 +35,17 @@ class ScoreViewModel(
 
     fun saveScore(){
         if(currentScore > maxScore){
-            sharedPreferences.edit().putInt(MAX_SCORE_VAL, currentScore).commit()
+            sharedPreferences.edit().putInt(MAX_SCORE_VAL, currentScore).apply()
         }
     }
 
     fun getScoreString() : String{
-        return (currentScore - maxScore).toString()
+        return "${currentScore}~${maxScore}"
     }
 
     fun resetAllScores(){
         currentScore = 0
         maxScore = 0
-        sharedPreferences.edit().putInt(MAX_SCORE_VAL, 0).commit()
+        sharedPreferences.edit().putInt(MAX_SCORE_VAL, 0).apply()
     }
 }

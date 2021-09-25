@@ -1,10 +1,10 @@
-package com.example.solveit
+package com.github.abhishekrajak.solveit
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.solveit.viewModel.ScoreViewModel
+import com.github.abhishekrajak.solveit.viewModel.ScoreViewModel
 
 
 class ScoreViewModelProviderFactory(

@@ -4,4 +4,6 @@
     <string name="type">Type</string>
     <string name="appName">solveIT</string>
     <string name="backgroundcolor">#03044C</string>
+    <string name="enter_value">Enter value</string>
+    <string name="answer_cannot_be_empty">Answer cannot be empty</string>
 </resources>

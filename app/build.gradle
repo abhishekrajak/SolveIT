@@ -9,11 +9,11 @@ android {
     buildToolsVersion "30.0.3"
 
     buildFeatures{
-        viewBinding = true
+        viewBinding true
     }
 
     defaultConfig {
-        applicationId "com.example.solveit"
+        applicationId "com.github.abhishekrajak.solveit"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/SplashScreen">
         
-        <activity android:name=".SolveITActivity">
+        <activity android:name="com.github.abhishekrajak.solveit.SolveITActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

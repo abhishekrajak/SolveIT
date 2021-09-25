@@ -1,9 +1,9 @@
-package com.example.solveit.viewModel
+package com.github.abhishekrajak.solveit.viewModel
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
-import com.example.solveit.model.Problem
+import com.github.abhishekrajak.solveit.model.Problem
 import kotlin.math.max
 
 class ScoreViewModel(

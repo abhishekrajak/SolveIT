@@ -1,4 +1,4 @@
-package com.example.solveit
+package com.github.abhishekrajak.solveit
 
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -17,9 +18,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.solveit.databinding.ActivityMainBinding
-import com.example.solveit.model.Operator
-import com.example.solveit.problem.ProblemGenerator
-import com.example.solveit.viewModel.ScoreViewModel
+import com.github.abhishekrajak.solveit.model.Operator
+import com.github.abhishekrajak.solveit.problem.ProblemGenerator
+import com.github.abhishekrajak.solveit.viewModel.ScoreViewModel
 import kotlinx.coroutines.*
 
 import android.view.animation.Animation
@@ -27,8 +28,11 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import android.view.animation.AlphaAnimation
 import android.view.animation.LinearInterpolator
+import android.widget.GridView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.solveit.R
 
 
 class SolveITActivity : AppCompatActivity() {
@@ -91,42 +95,45 @@ class SolveITActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setupListener() {
         binding.answer.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT && !binding.answer.text.isEmpty()) {
-                checkAnswer()
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.button.performClick()
                 return@OnEditorActionListener true
             }
             false
         })
 
-        binding.button.let {
-            it.isEnabled = false
-            it.alpha = 0.2f
-        }
-        binding.answer.addTextChangedListener {
-            if (it != null){
-                if(it.isNotEmpty()){
-                    binding.button.alpha = 1f
-                    binding.button.isEnabled = true
-                }else{
-                    binding.button.alpha = 0.2f
-                    binding.button.isEnabled = false
-                }
+        binding.answer.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            //
             }
-        }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.answer.hint = getString(R.string.enter_value)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            //
+            }
+        })
 
         binding.button.setOnClickListener {
-            it.alpha = 0.2f
-            it.animate().apply {
-                interpolator = LinearInterpolator()
-                duration = 300
-                alpha(1f)
-                startDelay = 300
-                start()
+            if (binding.answer.text?.isNotEmpty() == true) {
+                it.alpha = 0.2f
+                it.animate().apply {
+                    interpolator = LinearInterpolator()
+                    duration = 300
+                    alpha(1f)
+                    startDelay = 300
+                    start()
+                }
+
+                if (binding.answer.text.isNotEmpty()) {
+                    checkAnswer()
+                }
+            } else {
+                binding.answer.hint = getString(R.string.answer_cannot_be_empty)
             }
 
-            if (!binding.answer.text.isEmpty()) {
-                checkAnswer()
-            }
         }
         binding.button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundBlue))
     }

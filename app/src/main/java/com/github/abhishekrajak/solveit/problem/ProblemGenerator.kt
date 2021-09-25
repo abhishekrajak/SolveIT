@@ -1,7 +1,7 @@
-package com.example.solveit.problem
+package com.github.abhishekrajak.solveit.problem
 
-import com.example.solveit.model.Operator
-import com.example.solveit.model.Problem
+import com.github.abhishekrajak.solveit.model.Operator
+import com.github.abhishekrajak.solveit.model.Problem
 
 class ProblemGenerator {
     companion object{
@@ -13,7 +13,8 @@ class ProblemGenerator {
             val operator = getOperator(option)
 
             return Problem(operand1 = operand1, operand2 = operand2, operator = operator,
-                answer = getAnswer(operand1 = operand1, operand2 = operand2, operator = operator))
+                answer = getAnswer(operand1 = operand1, operand2 = operand2, operator = operator)
+            )
         }
 
         fun getOperator(option:Int) : Operator {

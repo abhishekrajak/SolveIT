@@ -1,4 +1,4 @@
-package com.example.solveit.model
+package com.github.abhishekrajak.solveit.model
 
 enum class Operator {
     addition, subtraction, multiplication

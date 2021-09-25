@@ -1,4 +1,4 @@
-package com.example.solveit
+package com.github.solveit
 
 import org.junit.Test
 

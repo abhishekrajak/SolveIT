@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundBlue"
-    tools:context=".SolveITActivity">
+    tools:context="com.github.abhishekrajak.solveit.SolveITActivity">
 
     <TextView
         android:id="@+id/operator"
@@ -95,7 +95,7 @@
         android:layout_marginBottom="336dp"
         android:backgroundTint="@color/white"
         android:ems="10"
-        android:hint="@string/type"
+        android:hint="@string/enter_value"
         android:imeOptions="actionNext"
         android:inputType="numberSigned"
         android:textColor="@color/white"

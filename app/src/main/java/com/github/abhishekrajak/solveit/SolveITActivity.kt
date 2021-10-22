@@ -196,7 +196,8 @@ class SolveITActivity : AppCompatActivity() {
     }
 
     private suspend fun setProblem() {
-        scoreViewModel.problem = ProblemGenerator.generate()
+//        scoreViewModel.problem = ProblemGenerator.generate()
+        scoreViewModel.problem = scoreViewModel.getProblemFromClass()
         withContext(Dispatchers.Main) {
             binding.operand1.text = scoreViewModel.problem.operand1.toString()
             binding.operand2.text = scoreViewModel.problem.operand2.toString()

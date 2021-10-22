@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import com.github.abhishekrajak.solveit.model.Problem
+import com.github.abhishekrajak.solveit.problem.ProblemGenerator
 import kotlin.math.max
 
 class ScoreViewModel(
@@ -47,5 +48,9 @@ class ScoreViewModel(
         currentScore = 0
         maxScore = 0
         sharedPreferences.edit().putInt(MAX_SCORE_VAL, 0).apply()
+    }
+
+    fun getProblemFromClass() : Problem{
+        return ProblemGenerator.generateProblemAccordingToScore(currentScore)
     }
 }

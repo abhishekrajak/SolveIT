@@ -1,4 +1,4 @@
-package com.github.abhishekrajak
+package com.github.abhishekrajak.solveit
 
 import android.app.Application
 

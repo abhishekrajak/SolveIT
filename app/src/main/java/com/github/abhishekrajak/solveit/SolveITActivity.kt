@@ -1,5 +1,7 @@
 package com.github.abhishekrajak.solveit
 
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
@@ -7,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -33,6 +36,9 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.solveit.R
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 
 
 class SolveITActivity : AppCompatActivity() {
@@ -42,6 +48,9 @@ class SolveITActivity : AppCompatActivity() {
     lateinit var sharedPreference: SharedPreferences
     private var sharedPrefName = "solveITSharedPref"
 
+    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
+    private val UPDATE_REQUEST_CODE = 123
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +58,12 @@ class SolveITActivity : AppCompatActivity() {
         val view = binding.root
         setTheme(R.style.SolveIT)
         setContentView(view)
+
+        appUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                appUpdateManager.startUpdateFlowForResult(it, AppUpdateType.IMMEDIATE, this, UPDATE_REQUEST_CODE)
+            }
+        }
 
         sharedPreference = getSharedPreferences(sharedPrefName, MODE_PRIVATE)
         val scoreViewModelProviderFactory =
@@ -214,5 +229,21 @@ class SolveITActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         scoreViewModel.saveScore()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                appUpdateManager.startUpdateFlowForResult(it, AppUpdateType.IMMEDIATE, this, UPDATE_REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UPDATE_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
+            finish()
+        }
     }
 }
